@@ -1,0 +1,38 @@
+import { useEffect, useContext } from 'react'
+import { useParams } from 'react-router-dom';
+
+//Context
+import ShowsContext from '../context/shows/showsContext'
+
+const Singlepage = () => {
+
+  const { id } = useParams();
+  const { getSingleShow, singleShow, loading } = useContext(ShowsContext);
+
+  useEffect(() => {
+    getSingleShow(id);
+
+  }, []);
+
+  return (
+    <div>
+      {loading ? <h2>loading...</h2> :
+        <div className='singleShow'>
+          <img src={singleShow.image ? singleShow.image.medium : "https://t4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg"} alt={singleShow.name} />
+          <div className='singleshow_info'>
+            <h1>
+              {singleShow.name}
+            </h1>
+            {singleShow.gernes && singleShow.genres.map(genre=>(<span key={genre} className='genre'>{genre}</span>))}
+            <p><strong>Status:</strong>{singleShow.status && singleShow.status}</p>
+            <p><strong>Rating:</strong>{singleShow.rating ?  singleShow.rating.average:"NO Rating"}</p>
+            <p>{singleShow.summary}</p>
+          </div>
+        </div>
+        }
+    </div>
+
+  )
+}
+
+export default Singlepage
